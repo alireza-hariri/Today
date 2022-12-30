@@ -11,3 +11,93 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+/* modal */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  /* padding-top: 100px; Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(254,254,253);
+}
+
+/* round add_button fixed in buttom of the page */
+.add_button {
+  position: fixed;
+  bottom: 20px;
+  /* middle of page */
+  right: calc(50% - 30px);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #0C9;
+  color: #FFF;
+  font-size: 30px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;
+  /* no border */
+  border: none;
+}
+/* lighter background on hover */
+.add_button:hover {
+  background-color: #0da;
+}
+
+/* back_button at top left of the page */
+.back_button {
+  position: absolute;
+  top: 20px;
+  /* middle of page */
+  left: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #0000;
+  color: rgb(23, 8, 8);
+  font-size: 30px;
+  text-align: center;
+  /* box-shadow: 2px 2px 3px #999; */
+  /* no border */
+  border: none;
+}
+
+.item {
+  direction: rtl;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  font-size: 22px;
+}
+
+.text_input {
+  width: 90%;
+  /* height: 100%; */
+  /* border: none; */
+  /* outline: none; */
+  font-size: 22px;
+  padding: 8px;
+  /* background-color: #fff; */
+  border-radius: 5px;
+  border: 2px solid #ccc;
+  box-shadow: 0px 0px 1px #999; 
+  margin-top: 100px;
+}
+
+.time_input {
+
+  font-size: 19px;
+  padding: 7px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  /* text spacing */
+  letter-spacing: 3px;
+}
