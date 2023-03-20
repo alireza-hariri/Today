@@ -1,19 +1,42 @@
 
 import React from 'react'
+import History from './components/history.jsx'
 
 class Home extends React.Component {
     constructor() {
         super();
-        this.state = JSON.parse(window.localStorage.getItem('state')) || {
-            items:[],
+        // JSON.parse(window.localStorage.getItem('state')) ||
+        this.state =  {
+            items:{},
             show_modal:false,
             input_text:"",
             input_time:"",
         }
-      }
-    reset_state() {
+        if (window.localStorage.getItem('state')) {
+            let old_state = JSON.parse(window.localStorage.getItem('state'))
+            if (typeof old_state.items == "object") {
+                this.state.items = old_state.items
+            }
+        }
+        if ((this.today() in this.state.items)==false) {
+            this.state.items[this.today()] = []
+        }
+        console.log(this.state)
+    }
+    today(){
+        // return date of day
+        return new Date().toLocaleDateString()
+    }
+    reset_state(reset_all=false) {
+        let new_items = this.state.items
+        if (reset_all){
+            new_items = {}
+        }else{
+            new_items[this.today()] = []
+        }
+
         this.setState({
-            items:[],
+            items:new_items,
             show_modal:false,
             input_text:"",
             input_time:"",
@@ -24,11 +47,41 @@ class Home extends React.Component {
             window.localStorage.setItem('state', JSON.stringify(state));
         super.setState(state);
     }
+    getItems() {
+        return this.state.items[this.today()]
+    }
+    addItem(text, time) {
+        this.setState({
+            items:{
+                ...this.state.items,
+                [this.today()]:[
+                    ...this.getItems(),
+                    {
+                        text:text,
+                        time:time,
+                    }
+                ]
+            },
+            show_modal:false,
+            input_text:"",
+        }, true)
+    }
     render() {
         return <div>
-            {this.state.items.map((item)=>{
+            <div 
+                className='app-bar'
+            >
+                    <img className='burger' src='/Hamburger_icon.png'/>
+                    <img className='edit-icon' src='/edit.png'/>
+                <div class='app-bar-text'>today</div>
+            </div>
+            <History 
+                data={this.state.items}
+            />
+            {this.getItems().map((item,idx)=>{
                 return <div
                     className="item"
+                    key={idx}
                 >{item.text}
                 <span>{item.time}</span>
                 </div>
@@ -65,7 +118,7 @@ class Home extends React.Component {
 
 
             <div className="modal" style={{display:this.state.show_modal?"block":"none"}}>
-                <div classNme="position-relative">
+                <div className="position-relative">
                     {/* back button */}
                     <button
                         className="back_button"
@@ -74,7 +127,7 @@ class Home extends React.Component {
                         }}
                     >{"🔙"}</button>
                     
-                    <input 
+                    <textarea  
                         className="text_input"
                         id="text_input"
                         value={this.state.input_text} 
@@ -99,7 +152,7 @@ class Home extends React.Component {
                     /> */}
                     <br/>
                     <button
-                        className="btn btn-success mt-3"
+                        className="btn btn-success add-btn2"
                         onClick={()=>{
                             if (this.state.input_text=="")
                                 return;
@@ -108,17 +161,8 @@ class Home extends React.Component {
                                 return;
                             }
                             
-                            this.setState({
-                                items:[
-                                    ...this.state.items,
-                                    {
-                                        text:this.state.input_text,
-                                        time:this.state.input_time,
-                                    }
-                                ],
-                                show_modal:false,
-                                input_text:"",
-                            }, true)
+                            this.addItem(this.state.input_text, this.state.input_time)
+
                         }}
                     >Add</button>
                 </div>

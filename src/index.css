@@ -18,16 +18,22 @@ code {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
-  /* padding-top: 100px; Location of the box */
+  /* padding-top: 40px;  */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(254,254,253);
+  background-color: rgb(255, 255, 255);
 }
 
-/* round add_button fixed in buttom of the page */
+
+.modal-trasparent{
+    padding-top: 40px; 
+    background-color: rgba(222, 222, 222, 0.604);
+}
+
+/* r2fixed in buttom of the page */
 .add_button {
   position: fixed;
   bottom: 20px;
@@ -79,6 +85,7 @@ code {
 }
 
 .text_input {
+  direction: rtl;
   width: 90%;
   /* height: 100%; */
   /* border: none; */
@@ -90,6 +97,8 @@ code {
   border: 2px solid #ccc;
   box-shadow: 0px 0px 1px #999; 
   margin-top: 100px;
+  margin-bottom: 50px;
+  resize: none;
 }
 
 .time_input {
@@ -100,4 +109,16 @@ code {
   border-radius: 4px;
   /* text spacing */
   letter-spacing: 3px;
+}
+
+.smaller{
+  font-size: 18px;
+  color: #333;
+}
+
+.add-btn2{
+  border-radius: 10px;
+  margin: 40px;
+  padding: 10px 15px;
+  font-size: 18px;
 }

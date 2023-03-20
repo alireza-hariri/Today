@@ -36,3 +36,44 @@
     transform: rotate(360deg);
   }
 }
+
+.close{
+  background: none;
+  border: none;
+  font-weight: bolder;
+  font-size: x-large;
+}
+
+.modal-body{
+  height: 70vh;
+
+}
+/* .modal-title{
+  
+} */
+
+.app-bar{
+  background-color: rgb(226, 238, 253);
+  border-bottom: 2px solid rgb(197, 220, 250);
+  height: 50px;
+  margin-bottom: 5px;
+}
+.app-bar-text{
+  font-size: 25px;
+  padding: 5px;
+  /* padding-right: 20px; */
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #0a2f63;
+  display: inline-block;
+}
+.burger{
+  height: 50px;
+  float: left;
+  padding: 11px;
+}
+.edit-icon{
+  height: 50px;
+  float: right;
+  padding: 16px;
+}
