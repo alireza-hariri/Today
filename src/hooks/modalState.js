@@ -2,8 +2,12 @@
 import create from 'zustand'
 
 const useModalState = create((set) => ({
-    showDayModal: true,
-    setShowDayModal: (x) => set((state) => ({ showDayModal: x })),
+    showDayModal: false ,
+    showAddModal: false,
+    menuOpen: false ,
+    setShowDayModal: (x) => set((state) => ({...state, showDayModal: x })),
+    setShowAddModal: (x) => set((state) => ({...state, showAddModal: x })),
+    setMenuOpen: (x) => set((state) => ({...state, menuOpen: x })),
 
 }))
 

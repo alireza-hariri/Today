@@ -1,6 +1,10 @@
 
 import React from 'react'
 import History from './components/history.jsx'
+import Menu from './components/menu.jsx'
+import AddRecord from './components/add_new.jsx'
+import {useModalState,withModalState} from "./hooks/modalState";
+
 
 class Home extends React.Component {
     constructor() {
@@ -8,9 +12,6 @@ class Home extends React.Component {
         // JSON.parse(window.localStorage.getItem('state')) ||
         this.state =  {
             items:{},
-            show_modal:false,
-            input_text:"",
-            input_time:"",
         }
         if (window.localStorage.getItem('state')) {
             let old_state = JSON.parse(window.localStorage.getItem('state'))
@@ -23,154 +24,121 @@ class Home extends React.Component {
         }
         console.log(this.state)
     }
+
     today(){
-        // return date of day
+        // return date of today
         return new Date().toLocaleDateString()
     }
+
     reset_state(reset_all=false) {
         let new_items = this.state.items
         if (reset_all){
-            new_items = {}
+            new_items = {} // reset all days
         }else{
             new_items[this.today()] = []
         }
-
         this.setState({
             items:new_items,
-            show_modal:false,
-            input_text:"",
-            input_time:"",
         })
     }
+
     setState(state, persist=false) {
         if (persist)
             window.localStorage.setItem('state', JSON.stringify(state));
         super.setState(state);
     }
+
     getItems() {
         return this.state.items[this.today()]
     }
-    addItem(text, time) {
+
+    addItem(text, dur, end_time) {
         this.setState({
             items:{
                 ...this.state.items,
                 [this.today()]:[
                     ...this.getItems(),
                     {
-                        text:text,
-                        time:time,
+                        text: text,
+                        time: end_time,
+                        dur: dur,
                     }
                 ]
             },
-            show_modal:false,
-            input_text:"",
         }, true)
     }
+
     render() {
+        const { setShowAddModal} = this.props.modalState;
+        
+        const items = this.getItems()
+        const noItem = items.length==0
         return <div>
             <div 
                 className='app-bar'
             >
                     <img className='burger' src='/Hamburger_icon.png'/>
-                    <img className='edit-icon' src='/edit.png'/>
-                <div class='app-bar-text'>today</div>
+                    <img className={'edit-icon '+(noItem?'invisible':'invisible')} src='/edit.png'/>
+                <div className='app-bar-text'>Today</div>
             </div>
-            <History 
-                data={this.state.items}
-            />
-            {this.getItems().map((item,idx)=>{
+
+            {items.map((item,idx)=>{
                 return <div
                     className="item"
                     key={idx}
-                >{item.text}
-                <span>{item.time}</span>
+                >
+                    <span className="dur">
+                        {item.dur}
+                        <div className="min">min</div>
+                    </span>
+                    {item.text}
+                <span >{item.time}</span>
                 </div>
             })}
+            <div className="space"/>
             <button
                 className='add_button'
                 onClick={()=>{
-                    // open modal
-                    this.setState({
-                        show_modal:true,
-                        input_text:"",
-                    })
-                    // set input_time to current time
-                    let now = new Date()
-                    let hours = now.getHours()
-                    let minutes = now.getMinutes()
-                    if (hours<10) hours = "0"+hours
-                    if (minutes<10) minutes = "0"+minutes
-                    this.setState({input_time:hours+":"+minutes})
+                    setShowAddModal(true)
                     // focus on input_text and open keyboard
                     setTimeout(()=>{
                         document.getElementById("text_input").focus()
                     },100)
 
-
-                    
-
                 }}
             >+</button>
             
 
-            
-            {/* the modal */}
+            {/* pages */}
 
+           <AddRecord
+                addItem={(text, dur, end_time)=>this.addItem(text, dur, end_time)}
+                deleteAll={()=>this.setState({
+                    items:{
+                        ...this.state.items,
+                        [this.today()]:[]
+                    }
+                },true)}
 
-            <div className="modal" style={{display:this.state.show_modal?"block":"none"}}>
-                <div className="position-relative">
-                    {/* back button */}
-                    <button
-                        className="back_button"
-                        onClick={()=>{
-                            this.setState({show_modal:false})
-                        }}
-                    >{"🔙"}</button>
-                    
-                    <textarea  
-                        className="text_input"
-                        id="text_input"
-                        value={this.state.input_text} 
-                        onChange={(e)=>{
-                            this.setState({input_text:e.target.value})
-                        }}
-                    />
-                    <br/>
-                    <input
-                        className="time_input mt-3"
-                        value={this.state.input_time}
-                        type="time"
-                        onChange={(e)=>{
-                            this.setState({input_time:e.target.value})
-                        }}
-                    />
-                    {/* <input
-                        value={this.state.M}
-                        onChange={(e)=>{
-                            this.setState({M:e.target.value})
-                        }}
-                    /> */}
-                    <br/>
-                    <button
-                        className="btn btn-success add-btn2"
-                        onClick={()=>{
-                            if (this.state.input_text=="")
-                                return;
-                            if (this.state.input_text=="همه پاک شود") {
-                                this.reset_state();
-                                return;
-                            }
-                            
-                            this.addItem(this.state.input_text, this.state.input_time)
+                deleteLast={()=>{
+                    const today = this.today()
+                    this.setState({
+                        items:{
+                        ...this.state.items,
+                        [today]:this.state.items[today].slice(0,-1)
+                    }},true)
+                }}
+           />  
 
-                        }}
-                    >Add</button>
-                </div>
-            </div>
+            <History 
+                data={this.state.items}
+            />
+
+            <Menu/>
         
         </div>
     }
   }
   
 
-export default Home;
+export default withModalState(Home);

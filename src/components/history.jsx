@@ -20,10 +20,12 @@ function History(props) {
                             <button type="button" className="close" onClick={()=>setShowDayModal(false)}>&times;</button>
                         </div>
                         <div className="modal-body">
-                        {Object.entries(props.data).map(([date,items],idx)=>{
+                            
+                        {Day==null & Object.entries(props.data).map(([date,items],idx)=>{
                             return <div
                                 className="item"
                                 key={idx}
+                                onClick={()=>setDay(date)}
                             >{date}
                             <span className='smaller'>{items.length} مورد</span>
                             </div>

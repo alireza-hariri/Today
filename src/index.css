@@ -96,9 +96,32 @@ code {
   border-radius: 5px;
   border: 2px solid #ccc;
   box-shadow: 0px 0px 1px #999; 
-  margin-top: 100px;
-  margin-bottom: 50px;
+  margin-top: 25px;
+  margin-bottom: 30px;
   resize: none;
+}
+
+.dur_input{
+  width: 50px;
+  display: inline-block;
+  margin: 10px 4px;
+  padding: 3px 4px;
+  margin-top: 100px;
+  text-align: center;
+}
+
+.dur{
+  height: 53px;
+  font-size: 20px;
+  display: block;
+  margin: -10px;
+  padding: 9px;
+  padding-top: 2px;
+  line-height: 25px;
+}
+.min{
+  font-size: 15px;
+  color: #444;
 }
 
 .time_input {
@@ -122,3 +145,8 @@ code {
   padding: 10px 15px;
   font-size: 18px;
 }
+
+.space{
+  height: 70px;
+}
+
