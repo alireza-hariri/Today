@@ -112,6 +112,7 @@ class Home extends React.Component {
             {/* pages */}
 
            <AddRecord
+                items={this.state.items[this.today()]}
                 addItem={(text, dur, end_time)=>this.addItem(text, dur, end_time)}
                 deleteAll={()=>this.setState({
                     items:{
@@ -138,7 +139,6 @@ class Home extends React.Component {
         
         </div>
     }
-  }
-  
+}
 
 export default withModalState(Home);

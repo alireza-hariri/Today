@@ -4,6 +4,15 @@ import {useModalState,withModalState} from "../hooks/modalState";
 
 let last_edits = ['dur','end'] // one of: start , end , dur
 
+function timeDiffInMin(time, min,hour){
+    const [h1,m1] = time.split(":");
+    let h_diff = hour - h1
+    if (h_diff < 0)
+        h_diff += 12
+    return h_diff*60 + (min - m1)
+}
+
+
 
 function AddRecord(props) {
 
@@ -17,13 +26,24 @@ function AddRecord(props) {
     useEffect(()=>{
         if(showAddModal){
             set_input_text('')
-            setDur(30)
             let now = new Date()
             let hours = now.getHours()
             let minutes = now.getMinutes()
             if (hours<10) hours = "0"+hours
             if (minutes<10) minutes = "0"+minutes
             set_end_time(hours+":"+minutes)
+            console.log(props.items)
+            if ( props.items.length>0){
+                const last_record = props.items[props.items.length-1]
+                let dur = timeDiffInMin(last_record.time, minutes,hours)
+                if( dur > 18)
+                {
+                    dur = Math.round(dur/5)*5
+                }
+                setDur(dur)
+            }else{
+                setDur(30)
+            }
         }
 
     },[showAddModal])
